@@ -32,7 +32,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -60,7 +59,7 @@ enum class CupcakeScreen(){
 
 @Composable
 fun CupcakeAppBar(
-    currentScreen: CupcakeScreen,
+    currentScreen: String,
     canNavigateBack: Boolean,
     navigateUp: () -> Unit,
     modifier: Modifier = Modifier,
@@ -90,6 +89,8 @@ fun CupcakeApp(
             viewModel : OrderViewModel = viewModel (),
 ){
 
+    // get nav controller
+    val navController = rememberNavController()
     // Get current back stack entry
     val backStackEntry by navController.currentBackStackEntryAsState()
     // Get the name of the current screen
@@ -99,8 +100,8 @@ fun CupcakeApp(
     Scaffold(
         topBar = {
             CupcakeAppBar(
-                currentScreen = currentScreen,
-                canNavigateBack = false,
+                currentScreen = backStackEntry?.destination?.route ?: CupcakeScreen.Start.name,
+                canNavigateBack = navController.previousBackStackEntry != null,
                 navigateUp = { navController.navigateUp()}
             )
         },
