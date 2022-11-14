@@ -66,7 +66,7 @@ fun CupcakeAppBar(
 
     ) {
     TopAppBar(
-        title = { Text(stringResource(id = R.string.app_name)) },
+        title = { Text(currentScreen) },
         modifier = modifier,
 
         navigationIcon = {
